@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
+
+   <link rel="stylesheet" type="text/css" href="IGdata.css">
+   <meta name="description" content="">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+</head>
+<body>
+ 	<img class="background" src="background.jpg"  alt="">
+ 	<div class="title"> </div>
+ 	<div class="graph"></div>
+
+
+<script>
+   d3.csv("./IGdata.csv").then(function(data) {
+    sum(data);
+  
+});
+  
+  function sum(data){
+
+     var Total_Followers=[];
+
+     var i;
+    for (i = 0; i < data.length; i++) { 
+     var followers=data[i].Total_Followers;
+      Total_Followers.push(followers);
+	}
+
+	var max= d3.max(Total_Followers);
+
+    var width = $('.graph').width();
+	var height = $('.graph').height();
+
+	var svg =	d3.select('.graph')
+				  .append('svg')
+				  .attr('width',width)
+				  .attr('height',height);
+
+	var a = d3.scaleLinear()
+			   .domain([0, data.length])
+			   .range([5,width]);
+
+
+	var b = d3.scaleLinear()
+			  .domain([0,max])
+			  .range([0,height]);
+
+
+    	svg.append('g')
+	   	   .attr('class','group');
+
+	var group = svg.select('.group')
+				   .selectAll('g')
+				   .data(followers)
+		     	   .enter()
+		 		   .append('g');
+
+        group.append('rect')
+			 .attr('x',50) //position horizontally
+			
+			 .attr('y',50) //position vertically
+
+					 .attr('width',10) 
+					 .attr('height',100)
+					 .style('fill','rgb(255, 255, 255)')
+
+					
+
+ }
+
+
+
+</script>
+</body>
+</html>
