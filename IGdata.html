@@ -14,7 +14,7 @@
  	<img class="background" src="background.jpg"  alt="">
  	<div class="title"> </div>
  	<div class="graph"></div>
-
+ 	<div class="a"></div>
 
 <script>
    d3.csv("./IGdata.csv").then(function(data) {
@@ -43,8 +43,8 @@
 				  .attr('height',height);
 
 	var a = d3.scaleLinear()
-			   .domain([0, data.length])
-			   .range([5,width]);
+			   .domain([0,data.length])
+			   .range([0,width]);
 
 
 	var b = d3.scaleLinear()
@@ -55,23 +55,34 @@
     	svg.append('g')
 	   	   .attr('class','group');
 
-	var group = svg.select('.group')
+	var group = svg.select('.group') 
 				   .selectAll('g')
-				   .data(followers)
+				   .data(Total_Followers)
 		     	   .enter()
 		 		   .append('g');
 
+	   group  .append("svg:img")
+                .attr("xlink:href", "https://wangx733.github.io/IGdata/like.png")
+                .attr("x", function(d,i){ return a(i); })
+                .attr("y", 2)
+                .attr("width", 10+"px")
+                .attr("height", 10+"px")
+             
+
+
         group.append('rect')
-			 .attr('x',50) //position horizontally
+			  .attr('x',function(d,i){ return a(i); }) //position horizontally
 			
-			 .attr('y',50) //position vertically
+			 .attr('y',0)
+ 					     //position vertically
 
 					 .attr('width',10) 
-					 .attr('height',100)
+					 .attr('height',function(d,i){ return b(d)* 0.1;})
 					 .style('fill','rgb(255, 255, 255)')
+	
 
-					
 
+    
  }
 
 
